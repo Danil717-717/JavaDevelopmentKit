@@ -15,7 +15,7 @@ public class Map extends JPanel {
 
     //поля для логики игры
     private static final Random RANDOM = new Random();
-    private static final int DOT_PADDING =  4;
+    private static final int DOT_PADDING =  5;
 
     private int gameOverType;
     private static final int STATE_DRAW = 0;
