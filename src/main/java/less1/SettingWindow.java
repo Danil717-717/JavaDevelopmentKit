@@ -15,6 +15,7 @@ public class SettingWindow  extends JFrame {
     JButton btnStart = new JButton("Start new game");
     SettingWindow(GameWindow gameWindow){
         setLocationRelativeTo(gameWindow);
+        //setLocationRelativeTo(gameWindow.getLocation().x, gameWindow.getLocation().y);
         setSize(WINDOW_WIDTH,WINDOW_HEIGHT);
 
         //добавили слушатель кнопок

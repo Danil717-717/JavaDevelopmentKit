@@ -33,6 +33,8 @@ public class Map extends JPanel {
     private int fieldSizeX = 3;
     private char[][] field;
 
+    private int winLength = 3;
+
     private boolean isGameOver;
     private boolean isInitialized;
 
@@ -228,6 +230,22 @@ public class Map extends JPanel {
     размер поля на 4х4 или 5х5 – размер и сложность этого метода
     будет расти в геометрической прогрессии
      */
+//    private int size;
+//    //private byte[][] desc;
+//
+//    public Map(int ASize) {
+//        size = ASize;
+//        field = new char[size][size];
+//    }
+//    private boolean checkLine(int x,int y, int vx, int vy, int len, int c){
+//        final int far_x = x + (len - 1) * vx;
+//        final int far_y = y + (len - 1) * vx;
+//        if(!isValidCell(far_x,far_y))return false;
+//        for(int i = 0; i < len; i++){
+//            if(field[y + i * vy][x + i * vx] != c) return false;
+//        }
+//        return true;
+//    }
     private boolean chekWin(char c) {
         if (field[0][0] == c && field[0][1] == c && field[0][2] == c) return true;
         if (field[1][0] == c && field[1][1] == c && field[1][2] == c) return true;
@@ -240,7 +258,53 @@ public class Map extends JPanel {
         if (field[0][0] == c && field[1][1] == c && field[2][2] == c) return true;
         if (field[0][2] == c && field[1][1] == c && field[2][0] == c) return true;
         return false;
+//        for (int i =0; i < fieldSizeX; i++){
+//            for (int j = 0; j < fieldSizeY; j++){
+//                if (checkLine(i,j,1,0,winLength,c)) return true;
+//                if (checkLine(i,j,1,1,winLength,c)) return true;
+//                if (checkLine(i,j,0,1,winLength,c)) return true;
+//                if (checkLine(i,j,1,-1,winLength,c)) return true;
+//            }
+//        }
+//        return false;
+//        return checkWinnerHorizontal() ||
+//                checkWinnerVertical() ||
+//                checkWinnerDiagonals();
     }
+
+//    private boolean checkWinnerHorizontal() {
+//        for (int i = 0; i < size; i++) {
+//            boolean res = true;
+//            for (int j = 1; j < size && res; j++)
+//                res = field[i][j] == field[i][0];
+//            if (res)
+//                return true;
+//        }
+//        return false;
+//    }
+
+//    private boolean checkWinnerVertical() {
+//        for (int i = 0; i < size; i++) {
+//            boolean res = true;
+//            for (int j = 1; j < size && res; j++)
+//                res = field[j][i] == field[0][i];
+//            if (res)
+//                return true;
+//        }
+//        return false;
+//    }
+
+//    private boolean checkWinnerDiagonals() {
+//        boolean res = true;
+//        for (int i = 1; i < size && res; i++)
+//            res = field[i][i] == field[0][0];
+//        if (res)
+//            return true;
+//        res = true;
+//        for (int i = 1; i < size && res; i++)
+//            res = field[size - i - 1][i] == field[size - 1][0];
+//        return res;
+//    }
 
     /*
     И метод проверки поля на состояние ничьей. Ничья в
