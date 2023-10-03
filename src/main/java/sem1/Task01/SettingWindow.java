@@ -1,4 +1,4 @@
-package sem1;
+package sem1.Task01;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

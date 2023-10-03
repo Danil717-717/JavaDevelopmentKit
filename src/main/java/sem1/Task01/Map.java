@@ -1,4 +1,4 @@
-package sem1;
+package sem1.Task01;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,7 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
 
-import static sem1.SettingWindow.sliderSizeValue;
+import static sem1.Task01.SettingWindow.sliderSizeValue;
 
 //Создали игровое поле
 public class Map extends JPanel {
@@ -17,7 +17,7 @@ public class Map extends JPanel {
 
     //поля для логики игры
     private static final Random RANDOM = new Random();
-    private static final int DOT_PADDING =  5;
+    private static final int DOT_PADDING = 5;
 
     private int gameOverType;
     private static final int STATE_DRAW = 0;
@@ -35,8 +35,8 @@ public class Map extends JPanel {
     private int fieldSizeX = 3;
     private char[][] field;
 
-    private int winLength = 3;
-    //private int size
+    public static final int FIELD_SIZE = 5;         // размер игрового поля
+    public static final int DOTS_TO_WIN = 4;        // сколько ячеек нужно подряд заполнить, чтобы победить
 
     private boolean isGameOver;
     private boolean isInitialized;
@@ -68,32 +68,32 @@ public class Map extends JPanel {
     private void update(MouseEvent e) {
         //при старте новой игры игра перестаёт быть законченой, а поле становится
         //инициализированным;
-        if(isGameOver || !isInitialized)return;
+        if (isGameOver || !isInitialized) return;
         //по клику мыши показывает координаты клика
         int cellX = e.getX() / cellWidth;
         int cellY = e.getY() / cellHeight;
         //System.out.printf("x=%d, y = %d\n", cellX, cellY);
         //методы обновления игрового
         //состояния и отрисовки игрового поля
-        if(!isValidCell(cellX, cellY) || !isEmptyCell(cellX, cellY))return;
+        if (!isValidCell(cellX, cellY) || !isEmptyCell(cellX, cellY)) return;
         field[cellY][cellX] = HUMAN_DOT;
         //так же внутри обработчика мыши
         //вызываем перерисовку
         repaint();
-        if (checkEndGame(HUMAN_DOT,STATE_WIN_HUMAN))return;
+        if (checkEndGame(HUMAN_DOT, STATE_WIN_HUMAN)) return;
         aiTurn();
         repaint();
-        if(checkEndGame(AI_DOT,STATE_WIN_AI))return;
+        if (checkEndGame(AI_DOT, STATE_WIN_AI)) return;
     }
 
-    private boolean checkEndGame(int dot, int gameOverType){
-        if(chekWin((char) dot)){
+    private boolean checkEndGame(int dot, int gameOverType) {
+        if (chekWin((char) dot)) {
             this.gameOverType = gameOverType;
             isGameOver = true;
             repaint();
             return true;
         }
-        if(isMapFull()){
+        if (isMapFull()) {
             this.gameOverType = STATE_DRAW;
             isGameOver = true;
             repaint();
@@ -109,7 +109,7 @@ public class Map extends JPanel {
         //инициализация поля
         initMap();
         isGameOver = false;
-        isInitialized  = true;
+        isInitialized = true;
         repaint();
     }
 
@@ -123,7 +123,7 @@ public class Map extends JPanel {
 
     //перерисовка панели
     private void render(Graphics g) {
-        if(!isInitialized)return;
+        if (!isInitialized) return;
 //        g.setColor(Color.BLACK);
 //        g.drawLine(0,0,100,100);
 //        int panelWidth = getWidth();
@@ -147,44 +147,47 @@ public class Map extends JPanel {
         //после рисования полей нужно сделать перересовку
         repaint();
 
-        for (int y = 0; y < fieldSizeY; y++){
-            for (int x = 0; x < fieldSizeX; x++){
-                if(field[y][x] == EMPTY_DOT) continue;
+        for (int y = 0; y < fieldSizeY; y++) {
+            for (int x = 0; x < fieldSizeX; x++) {
+                if (field[y][x] == EMPTY_DOT) continue;
 
-                if(field[y][x] == HUMAN_DOT){
+                if (field[y][x] == HUMAN_DOT) {
                     //отрисовка фигур на поле
                     g.setColor(Color.BLUE);
                     g.fillRect(x * cellWidth + DOT_PADDING,
                             y * cellHeight + DOT_PADDING,
                             cellWidth - DOT_PADDING * 2,
                             cellHeight - DOT_PADDING * 2);
-                }else if (field[y][x] == AI_DOT){
+                } else if (field[y][x] == AI_DOT) {
                     g.setColor(new Color(0xff0000));
                     g.fillOval(x * cellWidth + DOT_PADDING,
                             y * cellHeight + DOT_PADDING,
                             cellWidth - DOT_PADDING * 2,
                             cellHeight - DOT_PADDING * 2);
-                }else {
+                } else {
                     throw new RuntimeException("Unexpected value " +
                             field[y][x] + " in cell: x=" + x + " y=" + y);
                 }
             }
         }
-        if(isGameOver)showMessageGameOver(g);
+        if (isGameOver) showMessageGameOver(g);
     }
 
-    private void showMessageGameOver(Graphics g){
+    private void showMessageGameOver(Graphics g) {
         g.setColor(Color.DARK_GRAY);
-        g.fillRect(0,200,getWidth(),70);
+        g.fillRect(0, 200, getWidth(), 70);
         g.setColor(Color.ORANGE);
         g.setFont(new Font("Times new roman", Font.BOLD, 48));
-        switch (gameOverType){
-            case STATE_DRAW :
-                g.drawString(MSG_DRAW, 180, getHeight() / 2);break;
+        switch (gameOverType) {
+            case STATE_DRAW:
+                g.drawString(MSG_DRAW, 180, getHeight() / 2);
+                break;
             case STATE_WIN_AI:
-                g.drawString(MSG_WIN_AI,80,getHeight() / 2);break;
+                g.drawString(MSG_WIN_AI, 80, getHeight() / 2);
+                break;
             case STATE_WIN_HUMAN:
-                g.drawString(MSG_WIN_HUMAN,70, getHeight() / 2);break;
+                g.drawString(MSG_WIN_HUMAN, 70, getHeight() / 2);
+                break;
             default:
                 throw new RuntimeException("Unexpect gameOver state: " + gameOverType);
         }
@@ -251,15 +254,16 @@ public class Map extends JPanel {
 //        size = ASize;
 //        field = new char[size][size];
 //    }
-//    private boolean checkLine(int x,int y, int vx, int vy, int len, int c){
+//    private boolean checkLine(int x, int y, int vx, int vy, int len, int c) {
 //        final int far_x = x + (len - 1) * vx;
 //        final int far_y = y + (len - 1) * vx;
-//        if(!isValidCell(far_x,far_y))return false;
-//        for(int i = 0; i < len; i++){
-//            if(field[y + i * vy][x + i * vx] != c) return false;
+//        if (!isValidCell(far_x, far_y)) return false;
+//        for (int i = 0; i < len; i++) {
+//            if (field[y + i * vy][x + i * vx] != c) return false;
 //        }
 //        return true;
 //    }
+
     private boolean chekWin(char c) {
         if (field[0][0] == c && field[0][1] == c && field[0][2] == c) return true;
         if (field[1][0] == c && field[1][1] == c && field[1][2] == c) return true;
@@ -274,16 +278,14 @@ public class Map extends JPanel {
         return false;
 //        for (int i =0; i < fieldSizeX; i++){
 //            for (int j = 0; j < fieldSizeY; j++){
-//                if (checkLine(i,j,1,0,winLength,c)) return true;
-//                if (checkLine(i,j,1,1,winLength,c)) return true;
-//                if (checkLine(i,j,0,1,winLength,c)) return true;
-//                if (checkLine(i,j,1,-1,winLength,c)) return true;
+//                if (checkLine(i,j,1,0,FIELD_SIZE,c)) return true;
+//                if (checkLine(i,j,1,1,FIELD_SIZE,c)) return true;
+//                if (checkLine(i,j,0,1,FIELD_SIZE,c)) return true;
+//                if (checkLine(i,j,1,-1,FIELD_SIZE,c)) return true;
 //            }
 //        }
 //        return false;
-//        return checkWinnerHorizontal() ||
-//                checkWinnerVertical() ||
-//                checkWinnerDiagonals();
+//
     }
 
 //    private boolean checkWinnerHorizontal() {
@@ -298,9 +300,9 @@ public class Map extends JPanel {
 //    }
 
 //    private boolean checkWinnerVertical() {
-//        for (int i = 0; i < size; i++) {
+//        for (int i = 0; i < winLength; i++) {
 //            boolean res = true;
-//            for (int j = 1; j < size && res; j++)
+//            for (int j = 1; j < winLength && res; j++)
 //                res = field[j][i] == field[0][i];
 //            if (res)
 //                return true;
@@ -308,16 +310,27 @@ public class Map extends JPanel {
 //        return false;
 //    }
 
-//    private boolean checkWinnerDiagonals() {
+    //    private boolean checkWinnerDiagonals() {
 //        boolean res = true;
-//        for (int i = 1; i < size && res; i++)
+//        for (int i = 1; i < winLength && res; i++)
 //            res = field[i][i] == field[0][0];
 //        if (res)
 //            return true;
 //        res = true;
-//        for (int i = 1; i < size && res; i++)
-//            res = field[size - i - 1][i] == field[size - 1][0];
+//        for (int i = 1; i < winLength && res; i++)
+//            res = field[winLength - i - 1][i] == field[winLength - 1][0];
 //        return res;
+//    }
+//    private boolean checkWinnerDiagonals(char c) {
+//        boolean toright = true; // установили логическое значение 1
+//        boolean toleft = true;
+//        for (int i=0; i<4; i++) { // Блок от 0 до 3
+//            toright = toright & (field[i][i] == c);
+//        }
+//        // Дальше мы вернули (true), если во всех клетках нам встретились символы symb
+//        if (toright || toleft) return true;
+//        // или вернули (false), если встретился хоть один символ, отличный от symb
+//        return false;
 //    }
 
     /*
@@ -325,9 +338,9 @@ public class Map extends JPanel {
     крестиках-ноликах наступает, когда не победил ни игрок ни оппонент,
     и не осталось пустых клеток
      */
-    private boolean isMapFull(){
-        for (int i = 0; i < fieldSizeY; i++){
-            for(int j = 0; j < fieldSizeX; j++){
+    private boolean isMapFull() {
+        for (int i = 0; i < fieldSizeY; i++) {
+            for (int j = 0; j < fieldSizeX; j++) {
                 if (field[i][j] == EMPTY_DOT) return false;
             }
         }
