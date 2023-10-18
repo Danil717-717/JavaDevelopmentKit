@@ -11,6 +11,7 @@ public class Task03 <T> implements Iterator<T>,Iterable<T> {
         this.arr = arr;
     }
 
+
     @Override
     public Iterator<T> iterator() {
         return this;
