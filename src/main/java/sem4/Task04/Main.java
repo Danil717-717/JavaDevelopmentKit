@@ -1,8 +1,6 @@
 package sem4.Task04;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /*
  Создать класс справочник сотрудников, который содержит
@@ -30,6 +28,59 @@ public class Main {
                         new Worker(6, "453789", "Anjela", 8),
                         new Worker(7, "451789", "Ann", 15)
                 ));
+        ArrayList<Worker> workers = new ArrayList<>();
+        Worker worker1 = new Worker(0, "456", "Ann", 10);
+        Worker worker2 =new Worker(2, "456889", "Alex", 12);
+        Worker worker3 =new Worker(3, "456989", "Vaso", 1);
+        Worker worker4 =new Worker(4, "455789", "Mixail", 5);
+        Worker worker5 =new Worker(8, "455789352", "Vaso", 5);
+        Worker worker6 =new Worker(6, "453789", "Anjela", 8);
+        Worker worker7 =new Worker(7, "451789", "Ann", 15);
+
+        workers.add(worker1);
+        workers.add(worker2);
+        workers.add(worker3);
+        workers.add(worker4);
+        workers.add(worker5);
+        workers.add(worker6);
+        workers.add(worker7);
+
+        Checker<Worker> workerChecker = new Checker<Worker>() {
+            @Override
+            public boolean findWorkerByExper(Worker obj, int exp) {
+                return (obj.getExperience() == exp);
+            }
+
+            @Override
+            public boolean findPhoneByName(Worker obj, String name) {
+                return (obj.getName() == name);
+            }
+
+            @Override
+            public boolean findWorkerbyPersonId(Worker obj, int personId) {
+                return (obj.getPersonId() == personId);
+            }
+
+        };
+
+        System.out.println("ищет сотрудника по стажу");
+        System.out.println(Worker.findWorkExp(worker,workerChecker,5));
+        System.out.println(Worker.findWorkExp(worker,workerChecker,20));
+        System.out.println("ищет номер телефона по имени");
+        System.out.println(Worker.findPhoneName(worker,workerChecker,"Ann"));
+        System.out.println(Worker.findPhoneName(worker,workerChecker,"Vaso"));
+        List<Worker> list = new ArrayList<>(Worker.findPhoneName(worker,workerChecker,"Ann"));
+        System.out.println("Номера телефона " + Worker.findPh(list));
+        System.out.println("ищет сотрудника по табельному");
+        System.out.println(Worker.findWorkPersId(worker,workerChecker,2));
+        System.out.println(Worker.findWorkPersId(worker,workerChecker,3));
+        System.out.println("добавляет");
+        System.out.println(worker);
+        workerChecker.addWorker(worker,new Worker(9, "4517893333", "Annh", 15));
+        System.out.println(worker);
+        //System.out.println(Worker.findWorkExp(worker,workerChecker,20));
+
+
         System.out.println("1");
 
         System.out.println("Сотрудник со стажем 8: " + findExperience(worker, 8));
@@ -42,8 +93,8 @@ public class Main {
         findExperience2(worker, 20);
         System.out.println();
         System.out.println("1 ver3");
-        System.out.println(Arrays.toString(findExp(worker,5)));
-        System.out.println(Arrays.toString(findExp(worker,2)));
+        System.out.println(Arrays.toString(findExp(worker, 5)));
+        System.out.println(Arrays.toString(findExp(worker, 2)));
         System.out.println();
 
         System.out.println("2 Номер по имени");
@@ -65,13 +116,13 @@ public class Main {
         System.out.println();
 
         System.out.println("4 v2");
-        addWork(worker,"324345", "Nika",6);
+        addWork(worker, "324345", "Nika", 6);
         System.out.println(worker);
         worker.forEach(System.out::println);
 
     }
 
-    static Worker[] findExp(List<Worker> list, int exp){
+    static Worker[] findExp(List<Worker> list, int exp) {
         return list.stream().filter(p -> p.getExperience() == exp)
                 .toArray(Worker[]::new);
     }
@@ -118,7 +169,7 @@ public class Main {
 //        var res = list.stream().filter(p -> p.equals(worker)).findAny();
 
         for (int i = 0; i < list.size(); i++) {
-            if(!(list.get(i).getPersonId() == worker.getPersonId())){
+            if (!(list.get(i).getPersonId() == worker.getPersonId())) {
 
                 worker.setPersonId(list.stream().mapToInt(Worker::getPersonId).max().getAsInt());
                 list.add(worker);
@@ -129,8 +180,8 @@ public class Main {
 
     }
 
-    static void addWork(List<Worker> list,String phone,String name, int exp){
+    static void addWork(List<Worker> list, String phone, String name, int exp) {
         int lastId = list.stream().mapToInt(Worker::getPersonId).max().getAsInt();
-        list.add(new Worker(lastId+1, phone,name,exp));
+        list.add(new Worker(lastId + 1, phone, name, exp));
     }
 }

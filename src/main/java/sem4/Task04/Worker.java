@@ -1,8 +1,12 @@
 package sem4.Task04;
 
-import java.util.Objects;
 
-public class Worker {
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
+public class Worker implements Checker<Worker> {
     private int personId;
     private String phone;
     private String name;
@@ -35,11 +39,11 @@ public class Worker {
         this.personId = personId;
     }
 
-    public String toString(){
+    public String toString() {
         return String.format("Табельный номер: %d, " +
                 "Телефон: %s, " +
                 "Имя: %s," +
-                "Стаж: %d", personId, phone,name,experience );
+                "Стаж: %d", personId, phone, name, experience);
     }
 
 
@@ -50,4 +54,59 @@ public class Worker {
         Worker worker = (Worker) o;
         return personId == worker.personId && phone.equals(worker.phone) && name.equals(worker.name) && experience == worker.experience;
     }
+
+    @Override
+    public boolean findWorkerByExper(Worker w, int exp) {
+        return (w.personId == exp);
+    }
+
+    @Override
+    public boolean findPhoneByName(Worker w, String name) {
+        return(w.name == name);
+    }
+
+    @Override
+    public boolean findWorkerbyPersonId(Worker w, int personId) {
+        return (w.personId == personId);
+    }
+
+
+
+
+    public static <T> Collection<T> findWorkExp(Collection<T> coll, Checker<T> chk, int experience) {
+        LinkedList<T> l = new LinkedList<T>();
+        for (T obj : coll) {
+            if (chk.findWorkerByExper(obj, experience))
+                l.add(obj);
+        }
+        return l;
+    }
+
+    public static <T> Collection<T> findPhoneName(Collection<T> coll, Checker<T> chk, String name) {
+        LinkedList<T> l = new LinkedList<T>();
+        for (T obj : coll) {
+            if (chk.findPhoneByName(obj, name))
+                l.add(obj);
+        }
+        return l;
+    }
+
+    public static <String>List findPh(List<Worker> list) {
+        List<java.lang.String> listPhone = new ArrayList<>();
+        for (Worker i:list) {
+            java.lang.String p = i.getPhone();
+            listPhone.add(p);
+        }
+        return listPhone;
+    }
+
+    public static <T> Collection<T> findWorkPersId(Collection<T> coll, Checker<T> chk, int personId) {
+        LinkedList<T> l = new LinkedList<T>();
+        for (T obj : coll) {
+            if (chk.findWorkerbyPersonId(obj, personId))
+                l.add(obj);
+        }
+        return l;
+    }
 }
+
