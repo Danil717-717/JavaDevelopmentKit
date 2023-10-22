@@ -74,11 +74,7 @@ public class Main {
         System.out.println("ищет сотрудника по табельному");
         System.out.println(Worker.findWorkPersId(worker,workerChecker,2));
         System.out.println(Worker.findWorkPersId(worker,workerChecker,3));
-        System.out.println("добавляет");
-        System.out.println(worker);
-        workerChecker.addWorker(worker,new Worker(9, "4517893333", "Annh", 15));
-        System.out.println(worker);
-        //System.out.println(Worker.findWorkExp(worker,workerChecker,20));
+
 
 
         System.out.println("1");
