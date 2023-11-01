@@ -6,8 +6,7 @@ public class Main {
         //CountDownLatch startSignal = new CountDownLatch(1);
         //CountDownLatch doneSignal = new CountDownLatch(1);
 
-//        for (int i = 0; i < 5; ++i) // create and start threads
-//            new Thread(new Philher(startSignal, doneSignal)).start();
+
 //
 //        //doSomethingElse();            // don't let run yet
 //        startSignal.countDown();      // let all threads proceed
